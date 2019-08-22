@@ -1,8 +1,4 @@
 import sys
-
-sys.path.append("/opt/ros/kinetic/lib/python2.7/dist-packages")
-sys.path.append("/home/sensetime/code/repo_pro/senseauto/build/devel/lib/python2.7/dist-packages")
-
 import cv2
 import numpy as np
 
