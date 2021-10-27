@@ -1,2 +1,4 @@
-data
+data/
+mask.png
+earth_config.json
 
