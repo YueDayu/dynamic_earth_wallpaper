@@ -1,14 +1,21 @@
 #!/bin/bash
+script_path=$(readlink -f "$0")
+bashpath=$(dirname "${script_path}")
+python_client="python"
+generate_path=$bashpath/generate
 
-bashpath="/home/sensetime/code/wallpaper"
-python_client="/usr/bin/python"
+origin_img=$generate_path/origin.jpg
+process_img=$generate_path/process.jpg
+bg_img=$bashpath/data/bg.jpg
 
-wget "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG" -O $bashpath/data/origin.jpg
+mkdir -p $generate_path
 
-$python_client $bashpath/process.py $bashpath/data/origin.jpg $bashpath/data/process.jpg $bashpath/data/bg1.jpg
+wget "http://img.nsmc.org.cn/CLOUDIMAGE/FY4A/MTCC/FY4A_DISK.JPG" -O $origin_img
+
+$python_client $bashpath/process.py $origin_img $process_img $bg_img
 
 PID=$(pgrep gnome-session)
 export DBUS_SESSION_BUS_ADDRESS=$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/$PID/environ|cut -d= -f2-)
 
-/usr/bin/gsettings set org.gnome.desktop.background picture-uri "file:///$bashpath/data/process.jpg"
-/usr/bin/gsettings set org.gnome.desktop.background picture-options scale
+/usr/bin/gsettings set org.gnome.desktop.background picture-uri "file:///$process_img"
+/usr/bin/gsettings set org.gnome.desktop.background picture-options scaled
